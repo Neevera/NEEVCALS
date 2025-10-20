@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #d0f0fd, #b2ebf2, #e1bee7);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        color: #4a148c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding: 40px 20px;
+    }
+
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+        color: #6a1b9a;
+        font-size: 2.7em;
+        margin-bottom: 30px;
+        text-align: center;
+        z-index: 1;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.4);
+    }
+
+    form {
+        background-color: #ffffffdd;
+        border: 1px solid #ce93d8;
+        border-radius: 16px;
+        padding: 30px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 8px 25px rgba(106, 27, 154, 0.2);
+        z-index: 0;
+    }
+
+    form div {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #6a1b9a;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ba68c8;
+        border-radius: 10px;
+        transition: 0.3s;
+        font-size: 1em;
+    }
+
+    input[type="number"]:focus {
+        border-color: #8e24aa;
+        box-shadow: 0 0 6px rgba(142, 36, 170, 0.4);
+        outline: none;
+    }
+
+    button {
+        background-color: #8e24aa;
+        color: white;
+        padding: 12px 20px;
+        font-size: 1em;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+        background-color: #6a1b9a;
+        transform: scale(1.03);
+    }
+
+    h2 {
+        text-align: center;
+        color: #4a0072;
+        margin-top: 25px;
+    }
+
+    .pesan-info,
+    .pesan-sukses,
+    .pesan-error {
+        width: 100%;
+        max-width: 450px;
+        margin-top: 20px;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-size: 1em;
+    }
+
+    .pesan-info {
+        background-color: #f3e5f5;
+        color: #6a1b9a;
+        border-left: 6px solid #ce93d8;
+    }
+
+    .pesan-sukses {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border-left: 6px solid #66bb6a;
+    }
+
+    .pesan-error {
+        background-color: #ffebee;
+        color: #c62828;
+        border-left: 6px solid #ef5350;
+    }
+
+    @media (max-width: 500px) {
+        form {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+    }
+
+    .tombol-kembali {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #8e24aa;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px #999;
+  }
+  .tombol-kembali:hover {background-color: #6a1b9a}
+  .tombol-kembali:active {
+    background-color: #6a1b9a;
+    box-shadow: 0 1px #666;
+    transform: translateY(2px);
+  }
+</style>
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find out you Age</title> <!-- Judul yang lebih deskriptif -->
+
+</head>
+<body>
+    <a href="{{ url_for('main_page') }}" class="tombol-kembali">Homepage</a>
+    <hr>
+    <h1>Find out you Age</h1> <!-- Menampilkan welcome_message jika ada, atau judul default -->
+
+    <form method="POST" action="/cek_usia">
+        <div>
+            <label for="tahun">Year of Birth:</label>
+            <input type="number" id="tahun" name="tahun" placeholder="Example: 1990" min="1925" max="2025" required>
+        </div>
+ 
+        <div>
+            <label for="bulan">Month of Birth:</label>
+            <input type="number" id="bulan" name="bulan" placeholder="Example: 7 (for July)" min="1" max="12" required>
+        </div>
+
+        <div>
+            <label for="tanggal">Date of Birth:</label>
+            <input type="number" id="tanggal" name="tanggal" placeholder="Example: 17" min="1" max="31" required>
+        </div>
+
+        <button type="submit">Check</button>
+    </form>
+
+    {% if usia is not none %}
+        <h2>You are {{ usia }} years old</h2>
+    {% endif %}
+
+    {% if pesan %}
+        {% set kelas_pesan = 'pesan-info' %} {# Default class #}
+        {% if 'Selamat' in pesan|lower %}
+            {% set kelas_pesan = 'pesan-sukses' %}
+        {% elif 'harus diisi' in pesan|lower or 'tidak valid' in pesan|lower or 'belum ada' in pesan|lower or 'error' in pesan|lower %}
+            {% set kelas_pesan = 'pesan-error' %}
+        {% endif %}
+        <p class="{{ kelas_pesan }}">
+            {{ pesan }}
+        </p>
+    {% endif %}
+
+</body>
+</html>

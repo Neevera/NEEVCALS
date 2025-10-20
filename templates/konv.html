@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="id"> <!-- Ganti lang ke "id" untuk Bahasa Indonesia -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Konverter Bilangan Interaktif</title>
+    <style>
+        /* --- Variabel Warna --- */
+        :root {
+            --bg-color: #8bf8d4;
+            --text-color: #333;
+            --heading-color: #0056b3; /* Biru lebih gelap untuk judul */
+            --container-bg: #ffffff;
+            --container-shadow: rgba(0,0,0,0.1);
+            --input-bg: #ffffff;
+            --input-border: #ccc;
+            --input-text: #333;
+            --input-focus-border: #007bff;
+            --input-focus-shadow: rgba(0, 123, 255, 0.25);
+            --select-hover-border: #86b7fe;
+            --button-bg: #007bff; /* Biru standar */
+            --button-text: white;
+            --button-hover-bg: #0056b3; /* Biru lebih gelap saat hover */
+            --result-bg: #d4edda; /* Hijau muda */
+            --result-text: #155724; /* Hijau tua */
+            --result-border: #c3e6cb;
+            --result-icon-color: #155724;
+            --error-bg: #f8d7da; /* Merah muda */
+            --error-text: #721c24; /* Merah tua */
+            --error-border: #f5c6cb;
+            --optgroup-bg: #e9ecef;
+            --toggle-button-bg: #eee;
+            --toggle-button-border: #ccc;
+            --toggle-button-text: #333;
+        }
+
+        body.dark-mode {
+            --bg-color: #1a1a1a; /* Latar belakang gelap */
+            --text-color: #e0e0e0; /* Teks terang */
+            --heading-color: #60a5fa; /* Biru terang */
+            --container-bg: #2d2d2d; /* Kontainer sedikit lebih terang dari body */
+            --container-shadow: rgba(255,255,255,0.08);
+            --input-bg: #3b3b3b; /* Input gelap */
+            --input-border: #555;
+            --input-text: #e0e0e0;
+            --input-focus-border: #60a5fa;
+            --input-focus-shadow: rgba(96, 165, 250, 0.3);
+            --select-hover-border: #7aaeff;
+            --button-bg: #60a5fa; /* Biru terang untuk tombol */
+            --button-text: #1a1a1a; /* Teks gelap di tombol terang */
+            --button-hover-bg: #3b82f6; /* Biru lebih kuat saat hover */
+            --result-bg: #1e3a2b; /* Hijau gelap */
+            --result-text: #a7f3d0; /* Teks hijau terang */
+            --result-border: #2f5c40;
+            --result-icon-color: #a7f3d0;
+            --error-bg: #4a1d1f; /* Merah gelap */
+            --error-text: #f87171; /* Merah terang */
+            --error-border: #7a2c2f;
+            --optgroup-bg: #444;
+            --toggle-button-bg: #444;
+            --toggle-button-border: #666;
+            --toggle-button-text: #e0e0e0;
+        }
+        /* --- Akhir Variabel Warna --- */
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 30px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi halus untuk body */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--container-shadow);
+            max-width: 450px; /* Sedikit lebih lebar */
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            position: relative; /* Untuk positioning tombol tema */
+        }
+
+        .container:hover {
+             transform: translateY(-3px); /* Efek angkat halus */
+        }
+
+        h1 {
+            color: var(--heading-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Jarak antar elemen form */
+            margin-top: 20px;
+        }
+
+        .error, .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1em;
+            animation: fadeIn 0.5s ease-in-out;
+            text-align: left;
+        }
+
+        .error {
+            color: var(--error-text);
+            background-color: var(--error-bg);
+            border: 1px solid var(--error-border);
+            font-weight: 500;
+        }
+
+        .result {
+            background-color: var(--result-bg);
+            color: var(--result-text);
+            border: 1px solid var(--result-border);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .result::before {
+            content: '✔ ';
+            font-size: 1.2em;
+            margin-right: 10px;
+            color: var(--result-icon-color);
+            font-weight: bold;
+        }
+
+        .result span {
+            min-width: 0; /* Allows the span to shrink properly within the flex layout */
+            overflow-wrap: break-word; /* Standard property to break long words/numbers */
+            word-break: break-all; /* Ensures that long strings of numbers will break and wrap */
+        }
+        
+
+        label {
+            display: block;
+            font-weight: 500; /* Sedikit lebih ringan */
+            margin-bottom: 5px;
+            text-align: left;
+            color: var(--text-color);
+        }
+
+        input[type="text"], select {
+            width: 100%; /* Lebar penuh */
+            padding: 12px 15px; /* Padding lebih nyaman */
+            border: 1px solid var(--input-border);
+            border-radius: 6px; /* Sudut lebih bulat */
+            box-sizing: border-box;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 0 3px var(--input-focus-shadow);
+            outline: none;
+        }
+
+        select {
+             cursor: pointer;
+        }
+        select:hover {
+            border-color: var(--select-hover-border);
+        }
+
+        button[type="submit"] {
+            padding: 12px 20px;
+            cursor: pointer;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em; /* Sedikit lebih besar */
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-2px); /* Efek angkat tombol */
+        }
+         button[type="submit"]:active {
+             transform: translateY(0px); /* Kembali saat ditekan */
+         }
+
+        optgroup {
+            font-weight: bold;
+            background-color: var(--optgroup-bg);
+            color: var(--text-color); /* Pastikan teks optgroup terlihat di dark mode */
+        }
+        /* Pastikan option juga terlihat */
+        option {
+             background-color: var(--input-bg);
+             color: var(--input-text);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Style untuk Tombol Toggle Dark Mode --- */
+        .theme-switch-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            display:flex;
+            align-items: center;
+        }
+        .theme-switch {
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid var(--toggle-button-border);
+            background-color: var(--toggle-button-bg);
+            color: var(--toggle-button-text);
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        .theme-switch:hover {
+             opacity: 0.8;
+        }
+               /* Sembunyikan checkbox asli */
+               #theme-switch-checkbox {
+            height: 0;
+            width: 0;
+            visibility: hidden;
+            position: absolute; /* Pastikan tidak memakan ruang */
+        }
+
+        /* Gaya untuk label yang akan menjadi switch */
+        .theme-switch-label {
+            cursor: pointer;
+            text-indent: -9999px; /* Sembunyikan teks label jika ada */
+            width: 35px; /* Lebar switch */
+            height: 20px; /* Tinggi switch */
+            background: grey; /* Warna default (off) */
+            display: block;
+            border-radius: 100px;
+            position: relative;
+            background-color: var(--toggle-button-bg); /* Gunakan variabel */
+            border: 1px solid var(--toggle-button-border);
+            transition: background-color .2s ease;
+        }
+
+        /* Gaya untuk handle (bulatan) switch */
+        .theme-switch-label:after {
+            content: '';
+            position: absolute;
+            top: 1.1px;
+            left: 1.1px;
+            width: 16px; /* Ukuran handle */
+            height: 16px;
+            background: #fff; /* Warna handle */
+            border-radius: 90px;
+            transition: 0.2s;
+        }
+
+        /* Perubahan saat checkbox dicek (mode gelap aktif) */
+        #theme-switch-checkbox:checked + .theme-switch-label {
+            background: var(--button-bg); /* Warna latar saat on (gunakan warna tombol utama) */
+        }
+
+        #theme-switch-checkbox:checked + .theme-switch-label:after {
+            left: calc(100% - 1.1px); /* Pindahkan handle ke kanan */
+            transform: translateX(-100%);
+        }
+
+        .tombol-kembali {
+        display: inline-block;
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #007aff;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 2px #999;
+        }
+        .tombol-kembali:hover {background-color: #0056b3}
+        .tombol-kembali:active {
+            background-color: #0056b3;
+            box-shadow: 0 1px #666;
+            transform: translateY(2px);
+        }
+        
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <a href="{{ url_for('main_page') }}" class="tombol-kembali">Homepage</a>
+        <hr>
+        </div>
+        <!-- Dark Mode -->
+        <div class="theme-switch-wrapper">
+
+             <input type="checkbox" id="theme-switch-checkbox">
+             <label class="theme-switch-label" for="theme-switch-checkbox"></label>
+        </div>
+
+        <h1>Convert a Number</h1>
+
+        <!-- Tampilkan error jika ada -->
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <!-- Tampilkan hasil jika ada -->
+        {% if hasil %}
+            <div class="result">
+                <span>{{ hasil }}</span>
+            </div>
+        {% endif %}
+
+        <form method="post">
+            <label for="angka">Input Number:</label>
+            <input type="text" id="angka" name="angka" value="{{ angka_input if angka_input is not none else '' }}" required placeholder="520 or 10110 or FF">
+
+            <label for="pilihan">Select type:</label>
+            <select name="pilihan" id="pilihan" required>
+                <option value="" disabled {% if not pilihan_terpilih %}selected{% endif %}>Select conversion type</option>
+                <optgroup label="Decimal (10)">
+                    <option value="debin" {% if pilihan_terpilih == 'debin' %}selected{% endif %}>Decimal to Binary</option>
+                    <option value="dehex" {% if pilihan_terpilih == 'dehex' %}selected{% endif %}>Decimal to Hexadecimal</option>
+                    <option value="deoct" {% if pilihan_terpilih == 'deoct' %}selected{% endif %}>Decimal to Octal</option>
+                </optgroup>
+                <optgroup label="Binary (2)">
+                    <option value="bindec" {% if pilihan_terpilih == 'bindec' %}selected{% endif %}>Binary to Decimal</option>
+                    <option value="binhex" {% if pilihan_terpilih == 'binhex' %}selected{% endif %}>Binary to Hexadecimal</option>
+                    <option value="binoct" {% if pilihan_terpilih == 'binoct' %}selected{% endif %}>Binary to Octal</option>
+                </optgroup>
+                <optgroup label="Hexadecimal (16)">
+                    <option value="hexdec" {% if pilihan_terpilih == 'hexdec' %}selected{% endif %}>Hexadecimal to Decimal</option>
+                    <option value="hexbin" {% if pilihan_terpilih == 'hexbin' %}selected{% endif %}>Hexadecimal to Binary</option>
+                    <option value="hexoct" {% if pilihan_terpilih == 'hexoct' %}selected{% endif %}>Hexadecimal to Octal</option>
+                </optgroup>
+                <optgroup label="Octal (8)">
+                    <option value="ocdec" {% if pilihan_terpilih == 'ocdec' %}selected{% endif %}>Octal to Decimal</option>
+                    <option value="ocbin" {% if pilihan_terpilih == 'ocbin' %}selected{% endif %}>Octal to Binary</option>
+                    <option value="ochex" {% if pilihan_terpilih == 'ochex' %}selected{% endif %}>Octal to Hexadecimal</option>
+                </optgroup>
+            </select>
+
+            <button type="submit">Convert</button>
+        </form>
+
+    </div> <!-- Akhir .container -->
+
+    <script>
+                // Ganti selector ke checkbox
+        const themeSwitch = document.getElementById('theme-switch-checkbox');
+        const body = document.body;
+        // Gunakan 'konverter-tema' sebagai kunci localStorage yang lebih spesifik
+        const currentTheme = localStorage.getItem('konverter-tema');
+
+        // Fungsi untuk mengatur tema
+        function setTheme(theme) {
+            localStorage.setItem('konverter-tema', theme); // Simpan tema
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+                themeSwitch.checked = true; // Set checkbox ke checked
+            } else {
+                body.classList.remove('dark-mode');
+                themeSwitch.checked = false; // Set checkbox ke unchecked
+            }
+        }
+
+        // Terapkan tema yang tersimpan saat halaman dimuat
+        if (currentTheme === 'dark') {
+            setTheme('dark');
+        } else {
+            // Default ke mode terang jika tidak ada preferensi atau nilainya 'light'
+            setTheme('light');
+        }
+
+        // Event listener untuk perubahan pada checkbox
+        themeSwitch.addEventListener('change', () => {
+            // Jika checkbox dicek, set tema ke gelap, jika tidak, set ke terang
+            setTheme(themeSwitch.checked ? 'dark' : 'light');
+        });
+    </script>
+</body>
+</html>

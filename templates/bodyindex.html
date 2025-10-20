@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Body Index Interaktif</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2; /* Biru yang menarik */
+            --secondary-color: #50e3c2; /* Hijau mint untuk aksen */
+            --background-color: #f4f7f6; /* Latar belakang abu-abu muda */
+            --text-color: #333;
+            --card-background: #ffffff;
+            --input-border-color: #d1d1d1;
+            --input-focus-color: var(--primary-color);
+            --button-hover-color: #357abd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Pastikan font Poppins terhubung jika belum */
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+            padding: 20px;
+            overflow-x: hidden; /* Mencegah scroll horizontal jika ada animasi keluar batas */
+        }
+
+        .container {
+            background-color: var(--card-background);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            animation: fadeInScaleUp 0.8s ease-out forwards;
+            opacity: 0; /* Mulai transparan untuk animasi */
+        }
+
+        @keyframes fadeInScaleUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--input-border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--input-focus-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2); /* Bayangan fokus yang lembut */
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px); /* Efek sedikit terangkat saat hover */
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0px); /* Kembali ke posisi semula saat diklik */
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #e9f5ff; /* Latar belakang lembut untuk hasil */
+            border-left: 5px solid var(--primary-color);
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1em;
+            color: var(--text-color);
+            animation: fadeInResult 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInResult {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result p {
+            margin: 0;
+        }
+
+        /* Link kembali ke halaman utama */
+        .home-link {
+            display: block;
+            margin-top: 25px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .home-link:hover {
+            color: var(--button-hover-color);
+            text-decoration: underline;
+        }
+
+        .tombol-kembali {
+        display: inline-block;
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 2px #999;
+        }
+        .tombol-kembali:hover {background-color: #0056b3}
+        .tombol-kembali:active {
+            background-color: #0056b3;
+            box-shadow: 0 1px #666;
+            transform: translateY(2px);
+        }
+
+    </style>
+    <!-- Jika Anda menggunakan Google Fonts untuk 'Poppins', tambahkan linknya di sini -->
+    <!-- Contoh: <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"> -->
+</head>
+<body>
+    <div class="container">
+        <div>
+            <a href="{{ url_for('main_page') }}" class="tombol-kembali">Homepage</a>
+        <hr>
+        <br/>
+        </div>
+        <h1>Male Body Mass Index</h1>
+        <form method="POST" action="{{ url_for('body') }}">
+            <div class="form-group">
+                <label for="tinggi">Tinggi Badan (cm):</label>
+                <input type="number" id="tinggi" name="tinggi" placeholder="Contoh: 170" min="130" required>
+            </div>
+            <div class="form-group">
+                <label for="berat">Berat Badan (kg):</label>
+                <input type="number" id="berat" name="berat" placeholder="Contoh: 65" min="20" required>
+            </div>
+            <button type="submit">Hitung Body Mass Index</button>
+        </form>
+
+        {% if pesan is not none and pesan %}
+        <div class="result">
+            <p>{{ pesan }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Opsional: Link untuk kembali ke halaman utama (kalkulator usia) -->
+        <!-- <a href="{{ url_for('main_page') }}" class="home-link">Kembali ke Kalkulator Usia</a> -->
+    </div>
+</body>
+</html>
