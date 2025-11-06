@@ -168,8 +168,8 @@
     <a href="{{ url_for('main_page') }}" class="tombol-kembali">Homepage</a>
     <hr>
     <h1>Find out you Age</h1> <!-- Menampilkan welcome_message jika ada, atau judul default -->
-
-    <form method="POST" action="/cek_usia">
+    
+    <form method="POST" action="{{ url_for('usia.usia') }}">
         <div>
             <label for="tahun">Year of Birth:</label>
             <input type="number" id="tahun" name="tahun" placeholder="Example: 1990" min="1925" max="2025" required>

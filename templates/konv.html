@@ -337,7 +337,7 @@
             </div>
         {% endif %}
 
-        <form method="post">
+        <form method="post" action="{{ url_for('konv.konvers') }}">
             <label for="angka">Input Number:</label>
             <input type="text" id="angka" name="angka" value="{{ angka_input if angka_input is not none else '' }}" required placeholder="520 or 10110 or FF">
 

@@ -15,13 +15,17 @@
             --shadow-color: rgba(0, 0, 0, 0.1);
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 100dvh;
             margin: 0;
             color: var(--text-color);
             padding: 20px;
@@ -52,27 +56,72 @@
 
         h1 {
             color: var(--primary-color);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-weight: 700;
-            font-size: 2.2em;
+            font-size: 2rem;
+        }
+
+        p {
+            margin-bottom: 25px;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .nav-links a {
             display: block;
             background-color: var(--primary-color);
             color: white;
-            padding: 15px 25px;
-            margin: 15px 0;
+            padding: 14px 20px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.1em;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .nav-links a:hover {
             background-color: var(--button-hover-color);
             transform: translateY(-3px);
+        }
+
+        /* Responsif untuk layar kecil (mobile) */
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 15px;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 12px 16px;
+            }
+        }
+
+        /* Responsif untuk layar sangat kecil (HP < 360px) */
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.4rem;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+                padding: 10px 12px;
+            }
         }
     </style>
 </head>
@@ -81,10 +130,11 @@
         <h1>Welcome to Neevcal!</h1>
         <p>Which service would you like to access?</p>
         <div class="nav-links">
-            <a href="{{ url_for('usia') }}">Find out you Age (ENG)</a>
-            <a href="{{ url_for('body') }}">Body Mass Index (IND)</a>
-            <a href="{{ url_for('konvers') }}">Convert a Number (ENG)</a>
+            <a href="{{ url_for('usia.usia') }}">Find out your Age (ENG)</a>
+            <a href="{{ url_for('bodyindex.body') }}">Indeks Massa Tubuh (IND)</a>
+            <a href="{{ url_for('konv.konvers') }}">Convert a Number (ENG)</a> 
+            <a href="{{ url_for('pph21.hitung_pph21') }}">Kalkulator PPh21 (IND)</a>
+        </div>
     </div>
 </body>
 </html>
-
