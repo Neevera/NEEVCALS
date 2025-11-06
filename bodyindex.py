@@ -9,14 +9,13 @@ def body():
         try:
             tinggi_badan_str = request.form.get('tinggi')
             berat_badan_str = request.form.get('berat')
-            
+
             tinggi_badan = int(tinggi_badan_str)
             berat_badan = int(berat_badan_str)
-            
+
             x = tinggi_badan - 110
             y = berat_badan - x
-            
-            # Perbaikan logika selisih_plus dan selisih_minus agar lebih jelas
+
             if y < 0: # Terlalu kurus
                 selisih_plus = abs(y) # Berapa kg yang harus ditambah
             else: # Terlalu gemuk atau ideal
@@ -29,10 +28,16 @@ def body():
 
             if 0 <= y <= 10:
                 pesan_tambahan = "Mantap! Badan kamu ideal"
-            elif y > 10:
-                pesan_tambahan = f"Yah! Kamu terlalu gemuk, diet sampai kamu punya badan ideal ya, Kurangin {selisih_minus} (Kg) lagi buat dapet badan ideal."
-            else: # y < 0
-                pesan_tambahan = f"Duh! Kamu terlalu kurus, bulking sampai punya badan yang ideal ya, Tambahin {selisih_plus} (Kg) lagi buat dapet badan ideal."
+            elif 11 <= y <= 15:
+                pesan_tambahan = f"Kamu sedikit Ideal (Sedikit Kurangin Berat Badan Aja) at least kurangin {selisih_minus} kg aja udah cukup"
+            elif y < -5:
+                pesan_tambahan = f"Duh! Kamu Terlalu Kurus, Bulking Sampai Punya Badan Yang Ideal, Tambahin {selisih_plus} kg lagi buat dapet badan ideal"
+            elif y > 15:
+                pesan_tambahan = f"Yah! Kamu Terlalu Gemuk, Diet Ya Sampai Kamu Punya Badan Ideal, Kurangin {selisih_minus} kg lagi buat dapet badan ideal"
+            elif -5 <= y <= 0 :
+                pesan_tambahan = f"Kamu sedikit Ideal (Sedikit Tambahin Berat Badan Aja) at least tambahin {selisih_plus} kg aja udah cukup"
+            else: #
+                pesan_tambahan = f""
         except ValueError:
             pesan_tambahan = "Input tidak valid. Harap masukkan angka untuk tinggi dan berat badan."
         except Exception as e:
