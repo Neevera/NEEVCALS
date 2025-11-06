@@ -36,7 +36,7 @@ def hitung_pph21():
             # Hitung penghasilan kena pajak
             pkp = penghasilan_tahunan - ptkp
             if pkp <= 0:
-                output.append("\nPenghasilan Anda tidak kena pajak karena di bawah PTKP.")
+                output.append("\nPenghasilan tidak kena pajak karena di bawah PTKP.")
                 hasil = "\n".join(output)
                 return render_template("pph21.html", hasil=hasil)
 
