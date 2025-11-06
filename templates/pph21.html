@@ -84,6 +84,7 @@ select:focus {
 /* === TOMBOL SUBMIT === */
 button {
   margin-top: 20px;
+  margin-bottom: 20px;
   padding: 12px;
   background: linear-gradient(135deg, #00c853, #b2ff59);
   border: none;
@@ -243,8 +244,8 @@ button:hover {
 
             <button type="submit">Hitung</button>
         </form>
-
         {% if hasil %}
+        <h2>💡 Hasil Perhitungan</h2>
 <div class="result-box">
   {% for line in hasil.split('\n') %}
     {% if line.strip() == "" %}
