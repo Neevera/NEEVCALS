@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Datang!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50e3c2;
+            --text-color: #333;
+            --card-background: #ffffff;
+            --button-hover-color: #357abd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100dvh;
+            margin: 0;
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-background);
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            text-align: center;
+            animation: fadeInScaleUp 0.8s ease-out forwards;
+            opacity: 0;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        @keyframes fadeInScaleUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 2rem;
+        }
+
+        p {
+            margin-bottom: 25px;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            display: block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-3px);
+        }
+
+        /* Responsif untuk layar kecil (mobile) */
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 15px;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 12px 16px;
+            }
+        }
+
+        /* Responsif untuk layar sangat kecil (HP < 360px) */
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.4rem;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Neevcal!</h1>
+        <p>Which service would you like to access?</p>
+        <div class="nav-links">
+            <a href="{{ url_for('usia.usia') }}">Find out your Age (ENG)</a>
+            <a href="{{ url_for('bodyindex.body') }}">Indeks Massa Tubuh (IND)</a>
+            <a href="{{ url_for('konv.konvers') }}">Convert a Number (ENG)</a> 
+            <a href="{{ url_for('pph21.hitung_pph21') }}">Kalkulator PPh21 (IND)</a>
+            <a href="{{ url_for('chatbot.chatbot') }}">NeevAI (IND)</a>
+        </div>
+    </div>
+</body>
+</html>
+
