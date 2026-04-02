@@ -6,18 +6,19 @@
     <title>NeevAI</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* === RESET & BACKGROUND (Sama seperti sebelumnya) === */
+/* === RESET & BACKGROUND === */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
-body { background: linear-gradient(135deg, #84fab0, #8fd3f4); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+body { background: linear-gradient(135deg, #84fab0, #8fd3f4); min-height: 100dvh; display: flex; justify-content: center; align-items: center; padding: 20px; }
 
 /* === KONTENER CHAT === */
 .chat-container {
   background: white; border-radius: 16px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  width: 100%; max-width: 420px; height: 85vh; max-height: 700px;
+  width: 100%; max-width: 420px; height: 85dvh; max-height: 700px;
   display: flex; flex-direction: column; overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-/* === TOMBOL KEMBALI (HOMEPAGE) === */
+/* === TOMBOL KEMBALI === */
 .tombol-kembali {
   display: inline-flex;
   margin: 15px 15px 0 20px;
@@ -32,18 +33,9 @@ body { background: linear-gradient(135deg, #84fab0, #8fd3f4); min-height: 100vh;
   width: max-content;
   transition: all 0.3s ease;
 }
-
-.tombol-kembali:hover {
-  background: #e3f2fd;
-  border-color: #bbdefb;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1);
-}
-
-.tombol-kembali::before {
-  content: "← ";
-  margin-right: 4px;
-}
+.tombol-kembali:hover { background: #e3f2fd; border-color: #bbdefb; transform: translateY(-2px); }
+.tombol-kembali:active { transform: scale(0.95); }
+.tombol-kembali::before { content: "← "; margin-right: 4px; }
 
 /* === HEADER === */
 .chat-header {
@@ -51,26 +43,57 @@ body { background: linear-gradient(135deg, #84fab0, #8fd3f4); min-height: 100vh;
   display: flex; align-items: center; justify-content: space-between; z-index: 10;
 }
 .chat-header h2 { font-size: 1.2rem; color: #2a2a2a; }
-.tombol-reset { font-size: 0.85rem; color: #dc3545; text-decoration: none; font-weight: 600; }
+.tombol-reset { font-size: 0.85rem; color: #dc3545; text-decoration: none; font-weight: 600; padding: 5px 10px; border-radius: 12px; transition: 0.2s; }
+.tombol-reset:active { background: #ffebee; transform: scale(0.95); }
 
 /* === AREA CHAT & SCROLL === */
 .chat-box { flex: 1; padding: 20px; overflow-y: auto; background: #fafbfc; scroll-behavior: smooth; }
 .chat-content { display: flex; flex-direction: column; gap: 15px; }
 
 /* === BUBBLE CHAT === */
-.message { max-width: 85%; padding: 12px 16px; border-radius: 12px; font-size: 0.95rem; line-height: 1.4; }
+.message { max-width: 85%; padding: 12px 16px; border-radius: 14px; font-size: 0.95rem; line-height: 1.4; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
 .message.bot { background: #fff; border: 1px solid #dce3f0; color: #333; align-self: flex-start; border-bottom-left-radius: 4px; }
 .message.user { background: #e3f2fd; color: #0d47a1; border: 1px solid #bbdefb; align-self: flex-end; border-bottom-right-radius: 4px; }
-.message .highlight { background: #e8fbe8; border: 1px solid #c3f3c3; color: #006400; font-weight: 700; border-radius: 8px; padding: 8px; margin-top: 8px; display: block; }
 
-/* === AREA FORM INPUT === */
-.chat-input-area { padding: 15px 20px; background: white; border-top: 2px solid #f0f0f0; }
+/* === AREA FORM INPUT (SUDAH DIPERBAIKI) === */
+.chat-input-area { padding: 15px 20px; background: white; border-top: 2px solid #f0f0f0; width: 100%; }
 .chat-input-area form { display: flex; gap: 10px; align-items: center; width: 100%; }
-.chat-input-area input { flex: 1; padding: 12px 15px; border-radius: 20px; border: 1px solid #ccc; font-size: 0.95rem; outline: none; }
-.chat-input-area input:focus { border-color: #007bff; }
+.chat-input-area input { 
+  flex: 1; min-width: 0; /* Wajib agar input mau mengalah dan mengecil */
+  padding: 12px 15px; border-radius: 20px; border: 1px solid #ccc; font-size: 16px; outline: none; transition: border 0.3s; 
+}
+.chat-input-area input:focus { border-color: #007bff; box-shadow: 0 0 5px rgba(0,123,255,0.2); }
 .chat-input-area button {
-  background: linear-gradient(135deg, #00c853, #b2ff59); border: none; width: 45px; height: 45px;
-  border-radius: 50%; color: white; font-size: 1.2rem; cursor: pointer;
+  background: linear-gradient(135deg, #00c853, #b2ff59); border: none; 
+  width: 45px; height: 45px; min-width: 45px; min-height: 45px; /* Kunci mati ukuran tombol */
+  border-radius: 50%; color: white; font-size: 1.2rem; cursor: pointer; transition: transform 0.1s, box-shadow 0.2s;
+  display: flex; justify-content: center; align-items: center;
+  flex-shrink: 0; /* Anti gepeng di layar kecil */
+}
+.chat-input-area button:active { transform: scale(0.90); box-shadow: 0 2px 5px rgba(0,200,83,0.4); }
+
+/* =========================================
+   📱 MEDIA QUERIES UNTUK TAMPILAN MOBILE
+   ========================================= */
+@media screen and (max-width: 600px) {
+  body { padding: 0; }
+  
+  .chat-container {
+    width: 100%; /* Mengamankan area agar tidak tumpah ke luar layar */
+    height: 100dvh; 
+    max-height: 100dvh;
+    border-radius: 0; 
+    box-shadow: none;
+  }
+  
+  .tombol-kembali { margin: 10px 10px 0 15px; }
+  .chat-header { padding: 10px 15px 15px 15px; }
+  .chat-box { padding: 15px; }
+  
+  .chat-input-area { 
+    padding: 10px 15px; 
+    padding-bottom: calc(15px + env(safe-area-inset-bottom)); 
+  }
 }
 </style>
 </head>

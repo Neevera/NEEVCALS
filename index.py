@@ -1,12 +1,20 @@
 import os
 
 from flask import Flask, render_template
-from bodyindex import body_bp
-from usia import usia_bp
-from konv import konv_bp
-from pph21 import pph21_bp
-from chatbot import chatbot_bp
-app = Flask(__name__)
+from api.bodyindex import body_bp
+from api.usia import usia_bp
+from api.konv import konv_bp
+from api.pph21 import pph21_bp
+from api.chatbot import chatbot_bp
+
+# 3. PENGATURAN FOLDER AGAR FLASK TIDAK NYASAR DI VERCEL
+# Memberitahu Flask untuk mundur satu langkah keluar dari folder 'api'
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+template_dir = os.path.join(base_dir, 'templates')
+static_dir = os.path.join(base_dir, 'static')
+
+# 4. Inisialisasi Flask dengan jalur folder yang benar
+app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'CHANGE_ME_TO_A_SECRET')
 
 

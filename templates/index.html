@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,7 +48,6 @@
                 opacity: 0;
                 transform: translateY(20px) scale(0.95);
             }
-
             100% {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -127,7 +125,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <h1>Welcome to Neevcal!</h1>
@@ -135,12 +132,9 @@
         <div class="nav-links">
             <a href="{{ url_for('usia.usia') }}">Find out your Age (ENG)</a>
             <a href="{{ url_for('bodyindex.body') }}">Indeks Massa Tubuh (IND)</a>
-            <a href="{{ url_for('konv.konvers') }}">Convert a Number (ENG)</a>
+            <a href="{{ url_for('konv.konvers') }}">Convert a Number (ENG)</a> 
             <a href="{{ url_for('pph21.hitung_pph21') }}">Kalkulator PPh21 (IND)</a>
-            <a href="{{ url_for('chatbot.chatbot') }}">NeevAI (IND)</a>
-            <a href="">NeevAI LITE (IND) (Coming Soon)</a>
         </div>
     </div>
 </body>
-
 </html>
