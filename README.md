@@ -1,43 +1,39 @@
-# 🌐 Kumpulan Web Tools & Chatbot NeevAI
+# 🌐 Multi-Tool Web Hub & Smart AI Chatbot
 
-Halo! Selamat datang di repo project Web Tools serbaguna. 
-
-Project ini adalah aplikasi berbasis web yang dibikin pakai framework **Flask** (Python). Di dalamnya nggak cuma ada satu fitur, tapi kumpulan berbagai macam *tools* yang kepakai banget buat sehari-hari sampai buat tugas kuliah anak IT. Oh iya, di web ini juga ada asisten AI pintar yang siap diajak ngobrol!
-
-*(Catatan: Tampilan web-nya pakai HTML/CSS yang ditaruh di folder `templates` dan `static`, tapi repo ini fokus ke logika *backend* Python-nya).*
+Welcome to the **Multi-Tool Web Hub**! [cite_start]This project is a versatile web application built with the **Flask** framework[cite: 46]. It serves as a "digital Swiss Army Knife," featuring various utility tools—from financial calculators to unit converters—alongside an intelligent AI assistant.
 
 ---
 
-## ✨ Fitur-fitur Kece di Dalamnya
+## ✨ Features
 
-* 🤖 **Chatbot NeevAI (`chatbot.py`):** Asisten AI ramah yang ditenagai oleh model canggih `Llama-3.3-70b-versatile` lewat API Groq. Bisa diajak ngobrol santai, nanya tugas, sampai curhat.
-* ⚖️ **Kalkulator BMI / Body Index (`bodyindex.py`):** Tools buat ngecek apakah berat badan kamu udah ideal, kurang, atau harus diet. Nanti bakal dikasih tau kurang/lebih berapa kilonya!
-* 🔢 **Konverter Bilangan (`konv.py`):** Fitur wajib buat anak IT atau anak jaringan. Bisa ubah-ubah angka Desimal, Biner, Oktal, sampai Hexadesimal secara otomatis.
-* 💰 **Kalkulator Pajak PPh 21 (`pph21.py`):** Bingung ngitung potongan pajak gaji? Tinggal masukin gaji bulanan sama status tanggungan, sistem bakal ngitungin total Penghasilan Kena Pajak (PKP) sampai rincian pajak per bulannya.
-* 🎂 **Kalkulator Usia (`usia.py`):** Hitung umur kamu secara akurat (tahun) berdasarkan tanggal lahir. Kalau pas banget kamu lagi ulang tahun pas buka web ini, bakal ada ucapan spesialnya lho!
-
----
-
-## 📂 Kenalan Sama Isi File-nya
-
-Biar gampang navigasinya, ini penjelasan simpel buat file-file Python yang ada di project ini:
-
-* `index.py` ➔ **Pusat Kendali (Main Router).** Ini adalah file utama yang nyambungin semua fitur di atas ke halaman web. Dia yang ngatur kalau user buka `/bmi` perginya ke mana, kalau buka `/chatbot` perginya ke mana.
-* File-file *Blueprint* (Fitur Utama):
-    * `chatbot.py` ➔ Otak dari asisten NeevAI. Di sini diatur sifat AI-nya dan cara dia nyambung ke server Groq.
-    * `bodyindex.py` ➔ Isinya rumus matematika buat ngitung selisih tinggi dan berat badan.
-    * `konv.py` ➔ Tempatnya logika konversi (*built-in function* Python kayak `bin()`, `hex()`, `oct()`).
-    * `pph21.py` ➔ Isinya aturan baku PTKP dan persentase tarif pajak berjenjang.
-    * `usia.py` ➔ Logika buat nyocokin tanggal lahir kamu sama tanggal hari ini pakai `datetime`.
-* `requirements.txt` ➔ Daftar "alat tempur" atau *library* tambahan yang wajib di-install biar aplikasinya jalan (kayak Flask, Groq, dll).
+* [cite_start]🤖 **Smart AI Chatbot (`chatbot.py`):** An interactive AI assistant powered by the `Llama-3.3-70b-versatile` model via the Groq API[cite: 46]. It is designed to provide clear, concise, and helpful responses to user inquiries.
+* ⚖️ **BMI / Body Index Calculator (`bodyindex.py`):** Calculates the body mass index based on height and weight inputs, providing specific feedback on whether the user is within the ideal weight range.
+* 🔢 **Number System Converter (`konv.py`):** A practical tool for converting numbers between Decimal, Binary, Octal, and Hexadecimal systems.
+* 💰 **Income Tax Calculator (PPh 21) (`pph21.py`):** Calculates Indonesian income tax (PPh 21) based on monthly salary and tax-exempt income (PTKP) status, offering a detailed breakdown of tax layers.
+* 🎂 **Age Calculator (`usia.py`):** Dynamically calculates your exact age based on your birth date relative to the current day.
 
 ---
 
-## 🚀 Cara Install & Jalanin di Laptop Kamu
+## 📂 Project Architecture
 
-Pengen nyoba jalanin web ini di komputermu sendiri? Gampang banget, ikutin langkah ini:
+This project uses a modular **Blueprint** architecture to keep the code organized and scalable:
 
-### 1. Install Alat Tempur
-Buka terminal / Command Prompt di folder project ini, terus ketik perintah ini buat nginstall Flask dan teman-temannya:
+* `index.py` ➔ **The Main Entry Point.** Initializes the Flask app and registers all functional Blueprints.
+* **Blueprints (Core Logic):**
+    * `chatbot.py`: Handles AI system instructions, session-based chat history, and API integration.
+    * `bodyindex.py`: Contains the logic for height-weight ratio analysis.
+    * `konv.py`: Manages mathematical conversions for different number bases.
+    * `pph21.py`: Implements tax regulations and tiered tax rates.
+    * `usia.py`: Uses the `datetime` module to calculate age accurately.
+* [cite_start]`requirements.txt`: Lists all necessary Python packages such as Flask and Groq[cite: 46].
+
+---
+
+## 🚀 Installation & Setup
+
+Follow these steps to run this hub on your local machine:
+
+### 1. Install Dependencies
+Open your terminal in the project directory and run:
 ```bash
 pip install -r requirements.txt
