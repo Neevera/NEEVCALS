@@ -8,7 +8,7 @@ client = Groq(api_key=api_key_groq)
 
 @chatbot_bp.route('/chatbot', methods=['GET', 'POST'])
 def chatbot():
-    # PISAHKAN SYSTEM PROMPT DI SINI (Jangan dimasukkan ke session)
+    
     system_instruction = {
         "role": "system", 
         "content": ''' ###
